@@ -8,6 +8,10 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {GameScreen} from "./pages/GameScreen.tsx";
 import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
+import {FallbackWrapper} from "./components/FallbackWrapper.tsx";
+import {ErrorCard} from "./components/ErrorCard.tsx";
+import {WelcomePageFallback} from "./pages/fallbacks/WelcomePageFallback.tsx";
+import {GamePageLoadingFallback} from "./pages/fallbacks/GamePageLoadingFallback.tsx";
 
 function App() {
 
@@ -19,8 +23,27 @@ function App() {
                 <ThemeProvider theme={theme}>
                     <BrowserRouter basename="/gamehosts/go">
                         <Routes>
-                            <Route path={"/"} element={<RouteGuard><WelcomeScreen/></RouteGuard>}/>
-                            <Route path={"/game/:size"} element={<GameScreen/>}/>
+                            <Route path={"/"} element={
+                                <RouteGuard>
+                                    <FallbackWrapper
+                                        loadingFallback={<WelcomePageFallback/>}
+                                        errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
+                                    >
+                                        <WelcomeScreen/>
+                                    </FallbackWrapper>
+                                </RouteGuard>
+                            }/>
+                            <Route path={"/game/:size"} element={
+                                <RouteGuard>
+                                <FallbackWrapper
+                                    loadingFallback={<GamePageLoadingFallback/>}
+                                       errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
+                                >
+                                    <GameScreen/>
+                                </FallbackWrapper>
+                            </RouteGuard>
+
+                            }/>
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>
