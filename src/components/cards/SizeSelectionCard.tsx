@@ -1,5 +1,6 @@
 import {Card, CardContent, CardMedia, Typography, Chip} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {GameBoardPreview} from "../gameboard/GameBoardPreview.tsx";
 
 interface SizeSelectionCardProps{
     size:number;
@@ -22,7 +23,6 @@ export function SizeSelectionCard({size}:SizeSelectionCardProps){
             onClick={() => {navigate(`/game/${size}`)}}
         >
             <CardMedia
-                //Colors mapping should be removed from this in the future its just for testing purposes right now.
                 sx={{height: "80%", background:"white", color:"black", position:"relative"}}
             >
                 <Chip label="Difficulty" color={"secondary"}
@@ -33,7 +33,7 @@ export function SizeSelectionCard({size}:SizeSelectionCardProps){
                             zIndex: 1,
                         }}
                 />
-                <Typography>Gameboard will be rendered here once the component is a thing.</Typography>
+                <GameBoardPreview size={size}/>
             </CardMedia>
             <CardContent sx={{
                 height: "20%",
