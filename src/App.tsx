@@ -17,7 +17,7 @@ function App() {
                     <BrowserRouter basename="/gamehosts/go">
                         <Routes>
                             <Route path={"/"} element={<WelcomeScreen/>}/>
-                            <Route path={"/game/:size"} element={<GameScreen/>}/>
+                            <Route path={"/game"} element={<GameScreen/>}/>
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>

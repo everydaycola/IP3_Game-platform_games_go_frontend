@@ -7,11 +7,11 @@ interface GameBoardProps {
 }
 
 export function GameBoard({board}: GameBoardProps) {
-    const pieceSize = 60;
     return (
         <>
             <Stack direction="row"
-                   spacing={0}>
+                   spacing={0}
+            >
                 {board.board.map((col, colIdx) => (
                     <Stack
                         key={"gameboardCol" + colIdx}
@@ -21,13 +21,13 @@ export function GameBoard({board}: GameBoardProps) {
                         {col.map((cell, rowIdx) => (
                             <GoGameBoardPiece
                                 key={"cell-" + colIdx + "-" + rowIdx}
-                                pieceSize={pieceSize}
+                                pieceSize={board.size === 19 ? 50 : 60}
                                 stoneVisible={cell != "_"}
                                 stoneColor={cell === "B" ?"black" : "white"}
                                 topVisible={rowIdx != 0}
-                                bottomVisible={rowIdx != board.board.length - 1}
+                                bottomVisible={rowIdx != board.size - 1 }
                                 leftVisible={colIdx != 0}
-                                rightVisible={colIdx !== board.board[0].length - 1}
+                                rightVisible={colIdx !== board.size - 1}
                             />
                         ))}
                     </Stack>

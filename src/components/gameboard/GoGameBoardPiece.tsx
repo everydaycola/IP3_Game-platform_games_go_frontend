@@ -30,14 +30,15 @@ export function GoGameBoardPiece({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                aspectRatio:"1/1"
             }}
         >
 
             {stoneVisible &&
                 <Box
                     sx={{
-                        width: pieceSize * 0.66,
-                        height: pieceSize * 0.66,
+                        width: pieceSize * 0.9,
+                        height: pieceSize * 0.9,
                         borderRadius: "50%",
                         backgroundColor: stoneColor,
                         border:"5px solid " + theme.palette.primary.main,
