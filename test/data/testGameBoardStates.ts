@@ -1,4 +1,4 @@
-import type {GoGameBoardResponse} from "../models/GoGameBoardResponse.ts";
+import type { GoGameBoardResponse } from "../../src/models/GoGameBoardResponse";
 
 export const testBoard:GoGameBoardResponse ={
     id:"1",
