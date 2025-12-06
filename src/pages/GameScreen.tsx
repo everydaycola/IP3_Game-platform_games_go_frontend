@@ -3,11 +3,16 @@ import {GameBoard} from "../components/gameboard/GameBoard.tsx";
 import { useParams } from "react-router-dom";
 import {useStartNewGame} from "../hooks/useStartNewGame.ts";
 import {useEffect} from "react";
+import {allowedSizes} from "../config/game/config.ts";
 
 
 export function GameScreen(){
     const {size} = useParams();
     const {createGame,newGame,isPending, isError} = useStartNewGame();
+
+    if(!allowedSizes.includes(Number(size))){
+        throw new Error("Invalid size, we only support "+ allowedSizes.map((size) => size.toString()))
+    }
 
     useEffect(() => {
         //useffect to handle init load of this page.
