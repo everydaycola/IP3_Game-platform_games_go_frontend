@@ -2,10 +2,11 @@ import {Button, Stack, Typography} from "@mui/material";
 import {SizeSelectionCard} from "./cards/SizeSelectionCard.tsx";
 
 interface SizeSelectorProps{
-    sizes:number[]
+    sizes:number[];
+    onBack: () => void;
 }
 
-export function SizeSelector({sizes}:SizeSelectorProps){
+export function SizeSelector({sizes,onBack}:SizeSelectorProps){
     return(
         <>
             <Stack
@@ -16,6 +17,7 @@ export function SizeSelector({sizes}:SizeSelectorProps){
                         variant="contained"
                         color="secondary"
                         sx={{mr: 4, width: 100}}
+                        onClick={onBack}
                     >
                         Back
                     </Button>
@@ -27,6 +29,7 @@ export function SizeSelector({sizes}:SizeSelectorProps){
                 <Stack sx={{mt:4}} direction={"row"} justifyContent={"center"} flexWrap={"nowrap"}>
                     {sizes.map((size) =>
                         <SizeSelectionCard
+                            key={"size"+size}
                             size={size}
                         />
                     )}

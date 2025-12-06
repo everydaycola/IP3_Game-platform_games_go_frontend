@@ -1,10 +1,12 @@
 import {Card, CardContent, CardMedia, Typography, Chip} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 interface SizeSelectionCardProps{
     size:number;
 }
 
 export function SizeSelectionCard({size}:SizeSelectionCardProps){
+    const navigate = useNavigate();
     return(
         <Card
             sx={{
@@ -16,7 +18,7 @@ export function SizeSelectionCard({size}:SizeSelectionCardProps){
                 m:2,
                 cursor:"pointer"
             }}
-            onClick={() => {console.log("size card clicked")}}
+            onClick={() => {navigate(`/game/${size}`)}}
         >
             <CardMedia
                 //Colors mapping should be removed from this in the future its just for testing purposes right now.

@@ -3,7 +3,7 @@ import {useState} from "react";
 import {SizeSelector} from "../components/SizeSelector.tsx";
 
 export function WelcomeScreen() {
-    const [isSelectingSize, setIsSelectingSize] = useState(true);
+    const [isSelectingSize, setIsSelectingSize] = useState(false);
     const sizes = [9,13,19];
 
     return (
@@ -26,7 +26,10 @@ export function WelcomeScreen() {
             }
 
             {isSelectingSize &&
-                <SizeSelector sizes={sizes}/>
+                <SizeSelector
+                    onBack={() => setIsSelectingSize(false)}
+                    sizes={sizes}
+                />
             }
         </>
     )
