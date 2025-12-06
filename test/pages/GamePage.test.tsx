@@ -4,6 +4,7 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {MemoryRouter, Route, Routes } from "react-router-dom";
 import {testBoard, testBoardLarge, testBoardMedium} from "../data/testGameBoardStates";
 import {GamePage} from "../../src/pages/GamePage";
+import "@testing-library/jest-dom/vitest";
 
 const mockUseStartNewGame = vi.fn();
 vi.mock("../../src/hooks/useStartNewGame.ts", () => {
