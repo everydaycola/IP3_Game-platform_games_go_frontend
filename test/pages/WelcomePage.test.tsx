@@ -1,12 +1,12 @@
 import {describe, expect, it,vi} from "vitest";
 import {fireEvent, render, screen} from "@testing-library/react";
-import {WelcomeScreen} from "../../src/pages/WelcomeScreen";
+import {WelcomePage} from "../../src/pages/WelcomePage";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {MemoryRouter, Route, Routes } from "react-router-dom";
 
 vi.mock('axios')
 
-describe("WelcomeScreen", () => {
+describe("WelcomePage", () => {
     it("shows welcome content initially", () => {
         //Arrange
         const queryClient = new QueryClient();
@@ -15,7 +15,7 @@ describe("WelcomeScreen", () => {
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter initialEntries={[`/`]}>
                     <Routes>
-                        <Route path="/" element={<WelcomeScreen/>}/>
+                        <Route path="/" element={<WelcomePage/>}/>
                     </Routes>
                 </MemoryRouter>
             </QueryClientProvider>
@@ -34,7 +34,7 @@ describe("WelcomeScreen", () => {
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter initialEntries={[`/`]}>
                     <Routes>
-                        <Route path="/" element={<WelcomeScreen/>}/>
+                        <Route path="/" element={<WelcomePage/>}/>
                     </Routes>
                 </MemoryRouter>
             </QueryClientProvider>
@@ -56,7 +56,7 @@ describe("WelcomeScreen", () => {
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter initialEntries={[`/`]}>
                     <Routes>
-                        <Route path="/" element={<WelcomeScreen/>}/>
+                        <Route path="/" element={<WelcomePage/>}/>
                     </Routes>
                 </MemoryRouter>
             </QueryClientProvider>

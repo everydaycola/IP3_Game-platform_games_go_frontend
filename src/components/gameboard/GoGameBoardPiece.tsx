@@ -23,6 +23,7 @@ export function GoGameBoardPiece({
     const theme = useTheme();
     return (
         <Box
+            className="go-game-board-piece" //used for checking inside tests since there is no querable dom here.
             sx={{
                 position: "relative",
                 width: pieceSize,

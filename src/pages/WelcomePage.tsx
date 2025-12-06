@@ -2,7 +2,7 @@ import {Stack, Typography, Button} from "@mui/material";
 import {useState} from "react";
 import {SizeSelector} from "../components/SizeSelector.tsx";
 
-export function WelcomeScreen() {
+export function WelcomePage() {
     const [isSelectingSize, setIsSelectingSize] = useState(false);
     const sizes = [9,13,19];
 

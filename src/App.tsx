@@ -3,9 +3,9 @@ import {queryClient} from "./config/api";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {CssBaseline, ThemeProvider} from '@mui/material';
-import {WelcomeScreen} from "./pages/WelcomeScreen.tsx";
+import {WelcomePage} from "./pages/WelcomePage.tsx";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {GameScreen} from "./pages/GameScreen.tsx";
+import {GamePage} from "./pages/GamePage.tsx";
 import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
 import {FallbackWrapper} from "./components/FallbackWrapper.tsx";
@@ -29,7 +29,7 @@ function App() {
                                         loadingFallback={<WelcomePageFallback/>}
                                         errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
                                     >
-                                        <WelcomeScreen/>
+                                        <WelcomePage/>
                                     </FallbackWrapper>
                                 </RouteGuard>
                             }/>
@@ -39,7 +39,7 @@ function App() {
                                     loadingFallback={<GamePageLoadingFallback/>}
                                        errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
                                 >
-                                    <GameScreen/>
+                                    <GamePage/>
                                 </FallbackWrapper>
                             </RouteGuard>
 
