@@ -7,6 +7,7 @@ interface SizeSelectionCardProps{
 
 export function SizeSelectionCard({size}:SizeSelectionCardProps){
     const navigate = useNavigate();
+
     return(
         <Card
             sx={{
