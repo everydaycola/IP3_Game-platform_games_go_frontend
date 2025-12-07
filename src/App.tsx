@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {theme} from "./config/theme/theme.ts";
+import {queryClient} from "./config/api";
+import {QueryClientProvider} from "@tanstack/react-query";
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+import {CssBaseline, ThemeProvider} from '@mui/material';
+import {WelcomePage} from "./pages/WelcomePage.tsx";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {GamePage} from "./pages/GamePage.tsx";
+import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
+import {RouteGuard} from "./components/RouteGuard.tsx";
+import {FallbackWrapper} from "./components/FallbackWrapper.tsx";
+import {ErrorCard} from "./components/ErrorCard.tsx";
+import {WelcomePageFallback} from "./pages/fallbacks/WelcomePageFallback.tsx";
+import {GamePageLoadingFallback} from "./pages/fallbacks/GamePageLoadingFallback.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <>
+            <QueryClientProvider client={queryClient}>
+                <CssBaseline/>
+                <SecurityContextProvider>
+                <ThemeProvider theme={theme}>
+                    <BrowserRouter basename="/gamehosts/go">
+                        <Routes>
+                            <Route path={"/"} element={
+                                <RouteGuard>
+                                    <FallbackWrapper
+                                        loadingFallback={<WelcomePageFallback/>}
+                                        errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
+                                    >
+                                        <WelcomePage/>
+                                    </FallbackWrapper>
+                                </RouteGuard>
+                            }/>
+                            <Route path={"/game/:size"} element={
+                                <RouteGuard>
+                                <FallbackWrapper
+                                    loadingFallback={<GamePageLoadingFallback/>}
+                                       errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
+                                >
+                                    <GamePage/>
+                                </FallbackWrapper>
+                            </RouteGuard>
+
+                            }/>
+                        </Routes>
+                    </BrowserRouter>
+                </ThemeProvider>
+                </SecurityContextProvider>
+                <ReactQueryDevtools initialIsOpen={false}/>
+            </QueryClientProvider>
+        </>
+    )
 }
 
 export default App

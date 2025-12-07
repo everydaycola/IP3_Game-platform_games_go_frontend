@@ -1,0 +1,52 @@
+image: node:24
+
+stages:
+  - build
+  - test
+  - docker-publish
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+test:
+  stage: test
+  script:
+    - npm install
+    - npm run test-coverage
+  artifacts:
+    paths:
+      - coverage/
+    expire_in: 1 hour
+    when: always
+  dependencies:
+    - build
+
+
+docker-publish:
+  image: docker:24.0.5-cli
+  stage: docker-publish
+  services:
+    - docker:24.0.5-dind
+  dependencies:
+    - build
+    - test
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  script:
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
