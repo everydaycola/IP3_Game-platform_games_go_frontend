@@ -25,7 +25,7 @@ describe("GamePage", () => {
 
         const queryClient = new QueryClient();
         // Act
-        const { container } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter initialEntries={["/game/9"]}>
                     <Routes>
@@ -38,7 +38,7 @@ describe("GamePage", () => {
         // Assert
         // Wait for the GoGameBoardPieces to appear
         await waitFor(() => {
-            const pieces = container.getElementsByClassName("go-game-board-piece");
+            const pieces = screen.getAllByTestId("go-game-board-piece");
             expect(pieces.length).toBe(9 * 9);
         });
     });
@@ -54,7 +54,7 @@ describe("GamePage", () => {
 
         const queryClient = new QueryClient();
         // Act
-        const { container } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter initialEntries={["/game/13"]}>
                     <Routes>
@@ -67,7 +67,7 @@ describe("GamePage", () => {
         // Assert
         // Wait for the GoGameBoardPieces to appear
         await waitFor(() => {
-            const pieces = container.getElementsByClassName("go-game-board-piece");
+            const pieces = screen.getAllByTestId("go-game-board-piece");
             expect(pieces.length).toBe(13 * 13);
         });
     });
@@ -83,7 +83,7 @@ describe("GamePage", () => {
 
         const queryClient = new QueryClient();
         // Act
-        const { container } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter initialEntries={["/game/19"]}>
                     <Routes>
@@ -96,7 +96,7 @@ describe("GamePage", () => {
         // Assert
         // Wait for the GoGameBoardPieces to appear
         await waitFor(() => {
-            const pieces = container.getElementsByClassName("go-game-board-piece");
+            const pieces = screen.getAllByTestId("go-game-board-piece");
             expect(pieces.length).toBe(19 * 19);
         });
     });
