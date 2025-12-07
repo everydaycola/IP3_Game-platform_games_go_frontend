@@ -38,9 +38,6 @@ docker-publish:
   stage: docker-publish
   services:
     - docker:24.0.5-dind
-  dependencies:
-    - build
-    - test
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
   before_script:
