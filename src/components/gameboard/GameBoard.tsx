@@ -1,9 +1,9 @@
 import {Stack} from "@mui/material";
 import {GoGameBoardPiece} from "./GoGameBoardPiece.tsx";
-import type {GoGameBoardResponse} from "../../models/GoGameBoardResponse.ts";
+import type {GameState} from "../../models/GameState.ts";
 
 interface GameBoardProps {
-    board: GoGameBoardResponse;
+    board: GameState;
 }
 
 export function GameBoard({board}: GameBoardProps) {
