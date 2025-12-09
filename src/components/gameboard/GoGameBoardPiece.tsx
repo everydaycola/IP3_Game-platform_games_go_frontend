@@ -4,7 +4,7 @@ import {Box, useTheme} from "@mui/material";
 interface GoGameBoardPieceProps {
     pieceSize?: number;
     stoneVisible: boolean;
-    stoneColor?: string | undefined;
+    stoneColor?: string;
     topVisible?: boolean;
     bottomVisible?: boolean;
     leftVisible?: boolean;
