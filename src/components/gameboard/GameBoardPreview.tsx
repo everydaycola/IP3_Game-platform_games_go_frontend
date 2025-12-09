@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import {Stack} from "@mui/material";
 import {GoGameBoardPiece} from "./GoGameBoardPiece.tsx";
 
 interface GameBoardPreviewProps {

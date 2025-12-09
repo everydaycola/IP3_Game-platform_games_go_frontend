@@ -1,4 +1,4 @@
-import {Stack, Typography, Button} from "@mui/material";
+import {Button, Stack, Typography} from "@mui/material";
 import {useState} from "react";
 import {SizeSelector} from "../components/SizeSelector.tsx";
 
