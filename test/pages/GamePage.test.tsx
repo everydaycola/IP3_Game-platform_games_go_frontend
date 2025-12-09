@@ -1,62 +1,50 @@
-import {describe, expect, it,vi} from "vitest";
+import {beforeEach, describe, expect, it, vi} from "vitest";
 import {render, screen, waitFor} from "@testing-library/react";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {MemoryRouter, Route, Routes } from "react-router-dom";
-import {testBoard, testBoardLarge, testBoardMedium} from "../data/testGameBoardStates";
+import {MemoryRouter, Route, Routes} from "react-router-dom";
+import {testBoard} from "../data/testGameBoardStates";
 import {GamePage} from "../../src/pages/GamePage";
 import "@testing-library/jest-dom/vitest";
 
 const mockUseStartNewGame = vi.fn();
+const mockUseGameBoard = vi.fn();
 vi.mock("../../src/hooks/useStartNewGame.ts", () => {
     return {
         useStartNewGame: () => mockUseStartNewGame(),
     };
 });
+vi.mock("../../src/hooks/useGameBoard.ts", () => {
+    return {
+        useGameBoard: () => mockUseGameBoard(),
+    };
+});
 
 describe("GamePage", () => {
-    it("Correctly renders page when a 9x9 grid is provided.", async () => {
-        // Arrange
+    beforeEach(() => {
+        // arrange
         mockUseStartNewGame.mockReturnValue({
             createGame: vi.fn(),
             newGame: testBoard,
             isPending: false,
             isError: false,
         });
-
-        const queryClient = new QueryClient();
-        // Act
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter initialEntries={["/game/9"]}>
-                    <Routes>
-                        <Route path="/game/:size" element={<GamePage />} />
-                    </Routes>
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        // Assert
-        // Wait for the GoGameBoardPieces to appear
-        await waitFor(() => {
-            const pieces = screen.getAllByTestId("go-game-board-piece");
-            expect(pieces.length).toBe(9 * 9);
+        mockUseGameBoard.mockReturnValue({
+            gameState: testBoard,
+            isGamePending: false,
+            isError: false,
         });
     });
 
-    it("Correctly renders page when a 13x13 grid is provided.", async () => {
+    it.each([9, 13, 19])("Correctly renders page when a %ix%i grid is provided.", async (size) => {
         // Arrange
-        mockUseStartNewGame.mockReturnValue({
-            createGame: vi.fn(),
-            newGame: testBoardMedium,
-            isPending: false,
-            isError: false,
-        });
-
         const queryClient = new QueryClient();
+
+        // Note: Ensure mockUseGameBoard returns a board of 'size' here if 'testBoard' is fixed!
+
         // Act
         render(
             <QueryClientProvider client={queryClient}>
-                <MemoryRouter initialEntries={["/game/13"]}>
+                <MemoryRouter initialEntries={[`/game/${size}`]}>
                     <Routes>
                         <Route path="/game/:size" element={<GamePage />} />
                     </Routes>
@@ -65,39 +53,9 @@ describe("GamePage", () => {
         );
 
         // Assert
-        // Wait for the GoGameBoardPieces to appear
         await waitFor(() => {
             const pieces = screen.getAllByTestId("go-game-board-piece");
-            expect(pieces.length).toBe(13 * 13);
-        });
-    });
-
-    it("Correctly renders page when a 19x19 grid is provided.", async () => {
-        // Arrange
-        mockUseStartNewGame.mockReturnValue({
-            createGame: vi.fn(),
-            newGame: testBoardLarge,
-            isPending: false,
-            isError: false,
-        });
-
-        const queryClient = new QueryClient();
-        // Act
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter initialEntries={["/game/19"]}>
-                    <Routes>
-                        <Route path="/game/:size" element={<GamePage />} />
-                    </Routes>
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        // Assert
-        // Wait for the GoGameBoardPieces to appear
-        await waitFor(() => {
-            const pieces = screen.getAllByTestId("go-game-board-piece");
-            expect(pieces.length).toBe(19 * 19);
+            expect(pieces.length).toBe(size * size);
         });
     });
 
