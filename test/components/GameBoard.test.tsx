@@ -1,6 +1,7 @@
 import {describe, expect, it, vi, beforeEach} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { MemoryRouter } from "react-router-dom";
 import {GameBoard} from "../../src/components/gameboard/GameBoard";
 import {testBoard, testBoardLarge, testBoardMedium, whiteWinsBoard} from "../data/testGameBoardStates";
 import "@testing-library/jest-dom/vitest";
@@ -40,7 +41,11 @@ describe("GameBoard UI states", () => {
     // Arrange
     const client = new QueryClient();
     // Act
-    return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
+    return render(
+      <MemoryRouter>
+        <QueryClientProvider client={client}>{ui}</QueryClientProvider>
+      </MemoryRouter>
+    );
   };
 
   it("shows 'Your turn' when atTurn is true", () => {
