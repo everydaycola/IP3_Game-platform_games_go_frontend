@@ -1,4 +1,4 @@
-import {Box, Button, CircularProgress, Paper, Stack, Typography} from "@mui/material";
+import {Box, Button, Stack} from "@mui/material";
 import {GoGameBoardPiece} from "./GoGameBoardPiece.tsx";
 import type {GameState} from "../../models/GameState.ts";
 import {usePlaceStone} from "../../hooks/usePlaceStone.ts";
@@ -6,12 +6,18 @@ import {useEffect} from "react";
 import {useAiMove} from "../../hooks/useAiMove.ts";
 import {usePassTurn} from "../../hooks/usePassTurn.ts";
 import {useStartNewGame} from "../../hooks/useStartNewGame.ts";
+import {TurnCard} from "./GameCards/TurnCard.tsx";
+import {VictoryCard} from "./GameCards/VictoryCard.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface GameBoardProps {
     board: GameState;
 }
 
+
+
 export function GameBoard({board}: GameBoardProps) {
+    const navigate = useNavigate();
     const {createGame, isPending: isRestarting} = useStartNewGame();
     const {requestMove, isPending: isPlacing} = usePlaceStone()
     const {requestAiMove, isPending: isAiPending} = useAiMove()
@@ -61,49 +67,19 @@ export function GameBoard({board}: GameBoardProps) {
             </Stack>
 
             <Box sx={{minWidth: 260}}>
-                {board.winner.toLowerCase() === "empty" ? (
-                    <Paper elevation={3} sx={{p: 2}}>
-                        <Stack spacing={1}>
-                            {board.atTurn ? (
-                                <Typography variant="h6" color="success.main">Your turn</Typography>
-                            ) : (
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    {isAiPending && <CircularProgress size={20}/>}
-                                    <Typography variant="h6">AI is thinking…</Typography>
-                                </Stack>
-                            )}
-                            <Typography variant="body2">Game ID: {board.id}</Typography>
-                            <Stack direction="row" spacing={1}>
-                                <Button
-                                    variant="contained"
-                                    onClick={() => requestPassTurn(board.id)}
-                                    disabled={!board.atTurn || isPassPending || isAiPending}
-                                >
-                                    Pass
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={handleRetry}
-                                    disabled={isRestarting}
-                                >
-                                    Retry
-                                </Button>
-                            </Stack>
-                        </Stack>
-                    </Paper>
-                ) : (
-                    <Paper elevation={4} sx={{p: 2}}>
-                        <Stack spacing={1}>
-                            <Typography variant="h5">Winner</Typography>
-                            <Typography variant="h6">{board.winner}</Typography>
-                            <Typography variant="body1">Score: {board.score}</Typography>
-                            <Button variant="contained" onClick={handleRetry} disabled={isRestarting}>
-                                Play again
-                            </Button>
-                        </Stack>
-                    </Paper>
-                )}
+                <Stack spacing={2}>
+                    <Button variant="outlined" onClick={() => navigate("/")}>
+                        Back to Home
+                    </Button>
+
+                    {board.winner.toLowerCase() === "empty" ? (
+                        <TurnCard atTurn={board.atTurn} aiPending={isAiPending} size={board.size} id={board.id}
+                                  onClick={() => requestPassTurn(board.id)} passPending={isPassPending}/>
+                    ) : (
+                        <VictoryCard winner={board.winner} score={board.score} onClick={handleRetry}
+                                     disabled={isRestarting}/>
+                    )}
+                </Stack>
             </Box>
         </Stack>
     )
