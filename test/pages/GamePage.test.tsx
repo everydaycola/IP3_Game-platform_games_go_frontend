@@ -2,7 +2,7 @@ import {beforeEach, describe, expect, it, vi} from "vitest";
 import {render, screen, waitFor} from "@testing-library/react";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {MemoryRouter, Route, Routes} from "react-router-dom";
-import {testBoard} from "../data/testGameBoardStates";
+import {testBoard, testBoardLarge, testBoardMedium} from "../data/testGameBoardStates";
 import {GamePage} from "../../src/pages/GamePage";
 import "@testing-library/jest-dom/vitest";
 
@@ -39,7 +39,26 @@ describe("GamePage", () => {
         // Arrange
         const queryClient = new QueryClient();
 
-        // Note: Ensure mockUseGameBoard returns a board of 'size' here if 'testBoard' is fixed!
+        // Make sure mocks return a board matching the requested size for this test case
+        const boardBySize = {
+            9: testBoard,
+            13: testBoardMedium,
+            19: testBoardLarge,
+        } as const;
+
+        const selected = boardBySize[size as 9 | 13 | 19];
+
+        mockUseStartNewGame.mockReturnValueOnce({
+            createGame: vi.fn(),
+            newGame: selected,
+            isPending: false,
+            isError: false,
+        });
+        mockUseGameBoard.mockReturnValueOnce({
+            gameState: selected,
+            isGamePending: false,
+            isError: false,
+        });
 
         // Act
         render(
