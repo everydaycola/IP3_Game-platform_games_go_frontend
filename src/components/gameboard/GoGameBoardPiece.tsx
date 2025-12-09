@@ -9,21 +9,25 @@ interface GoGameBoardPieceProps {
     bottomVisible?: boolean;
     leftVisible?: boolean;
     rightVisible?: boolean;
+    onClick?: () => void;
 }
 
-export function GoGameBoardPiece({
-                                     pieceSize= 60,
-                                     stoneVisible,
-                                     stoneColor,
-                                     topVisible = true,
-                                     bottomVisible = true,
-                                     leftVisible = true,
-                                     rightVisible = true,
-                                 }: GoGameBoardPieceProps) {
+export function GoGameBoardPiece(
+    {
+        pieceSize = 60,
+        stoneVisible,
+        stoneColor,
+        topVisible = true,
+        bottomVisible = true,
+        leftVisible = true,
+        rightVisible = true,
+        onClick = () => {}
+    }: GoGameBoardPieceProps) {
     const theme = useTheme();
     return (
         <Box
             data-testid="go-game-board-piece"
+            onClick={onClick}
             sx={{
                 position: "relative",
                 width: pieceSize,
@@ -31,7 +35,7 @@ export function GoGameBoardPiece({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                aspectRatio:"1/1"
+                aspectRatio: "1/1"
             }}
         >
 
@@ -42,7 +46,7 @@ export function GoGameBoardPiece({
                         height: pieceSize * 0.9,
                         borderRadius: "50%",
                         backgroundColor: stoneColor,
-                        border:"5px solid " + theme.palette.primary.main,
+                        border: "5px solid " + theme.palette.primary.main,
                         zIndex: 1,
                     }}
                 />
@@ -52,7 +56,7 @@ export function GoGameBoardPiece({
                 <Box
                     sx={{
                         position: "absolute",
-                        width: pieceSize/12,
+                        width: pieceSize / 12,
                         height: "50%",
                         backgroundColor: "black",
                         top: 0,
@@ -67,7 +71,7 @@ export function GoGameBoardPiece({
                 <Box
                     sx={{
                         position: "absolute",
-                        width: pieceSize/12,
+                        width: pieceSize / 12,
                         height: "50%",
                         backgroundColor: "black",
                         bottom: 0,
@@ -82,7 +86,7 @@ export function GoGameBoardPiece({
                 <Box
                     sx={{
                         position: "absolute",
-                        height: pieceSize/12,
+                        height: pieceSize / 12,
                         width: "50%",
                         backgroundColor: "black",
                         left: 0,
@@ -97,7 +101,7 @@ export function GoGameBoardPiece({
                 <Box
                     sx={{
                         position: "absolute",
-                        height: pieceSize/12,
+                        height: pieceSize / 12,
                         width: "50%",
                         backgroundColor: "black",
                         right: 0,

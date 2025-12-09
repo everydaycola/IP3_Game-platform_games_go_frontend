@@ -6,11 +6,13 @@ import {useStartNewGame} from "../hooks/useStartNewGame.ts";
 import {allowedSizes} from "../config/game/config.ts";
 import {GameBoard} from "../components/gameboard/GameBoard.tsx";
 import {ErrorCard} from "../components/ErrorCard.tsx";
+import {useGameBoard} from "../hooks/useGameBoard.ts";
 
 
 export function GamePage() {
     const {size} = useParams();
     const {createGame, newGame, isPending, isError} = useStartNewGame();
+    const {gameState, isGamePending} = useGameBoard();
 
 
     useEffect(() => {
@@ -26,7 +28,7 @@ export function GamePage() {
                            renderBackToHomeButton={true}/>)
     }
 
-    if (isPending) {
+    if (isPending || isGamePending) {
         return (<div>Loading...</div>)
     }
 
@@ -38,9 +40,11 @@ export function GamePage() {
         <Stack justifyContent={"center"}
                alignItems={"center"}
                sx={{height: "100svh"}}>
-            <GameBoard
-                board={newGame}
-            />
+            {gameState && (
+                <GameBoard
+                    board={gameState}
+                />
+            )}
         </Stack>
     )
 }

@@ -5,10 +5,11 @@ interface GameBoardPreviewProps {
     size: number;
 }
 
-export function GameBoardPreview({ size }: GameBoardPreviewProps) {
+export function GameBoardPreview({size}: GameBoardPreviewProps) {
     const board = Array.from({ length: size }, () =>
         Array.from({ length: size }, () => "_")
     );
+
 
     return (
         <Stack direction="row" spacing={0}>
