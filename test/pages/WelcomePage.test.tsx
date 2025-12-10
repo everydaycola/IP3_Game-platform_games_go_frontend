@@ -64,9 +64,10 @@ describe("WelcomePage", () => {
         fireEvent.click(screen.getByRole("button", { name: /start a game/i }));
         expect(screen.getByText("Select a board size")).toBeInTheDocument();
 
-        //Act (press the back button to reset initial page state)
+        //Act
         fireEvent.click(screen.getByRole("button", { name: /back/i }));
 
+        // Assert
         expect(screen.getByText("Welcome to Go!")).toBeInTheDocument();
         expect(screen.queryByText("Select a board size")).not.toBeInTheDocument();
     });

@@ -16,10 +16,9 @@ import {GamePageLoadingFallback} from "./pages/fallbacks/GamePageLoadingFallback
 function App() {
 
     return (
-        <>
-            <QueryClientProvider client={queryClient}>
-                <CssBaseline/>
-                <SecurityContextProvider>
+        <QueryClientProvider client={queryClient}>
+            <CssBaseline/>
+            <SecurityContextProvider>
                 <ThemeProvider theme={theme}>
                     <BrowserRouter basename="/gamehosts/go">
                         <Routes>
@@ -27,7 +26,8 @@ function App() {
                                 <RouteGuard>
                                     <FallbackWrapper
                                         loadingFallback={<WelcomePageFallback/>}
-                                        errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
+                                        errorFallback={<ErrorCard title={"Er ging iets mis"}
+                                                                  description={"Probeer het nog een keer."}/>}
                                     >
                                         <WelcomePage/>
                                     </FallbackWrapper>
@@ -35,22 +35,22 @@ function App() {
                             }/>
                             <Route path={"/game/:size"} element={
                                 <RouteGuard>
-                                <FallbackWrapper
-                                    loadingFallback={<GamePageLoadingFallback/>}
-                                       errorFallback={<ErrorCard title={"Er ging iets mis"} description={"Probeer het nog een keer."}/>}
-                                >
-                                    <GamePage/>
-                                </FallbackWrapper>
-                            </RouteGuard>
+                                    <FallbackWrapper
+                                        loadingFallback={<GamePageLoadingFallback/>}
+                                        errorFallback={<ErrorCard title={"Er ging iets mis"}
+                                                                  description={"Probeer het nog een keer."}/>}
+                                    >
+                                        <GamePage/>
+                                    </FallbackWrapper>
+                                </RouteGuard>
 
                             }/>
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>
-                </SecurityContextProvider>
-                <ReactQueryDevtools initialIsOpen={false}/>
-            </QueryClientProvider>
-        </>
+            </SecurityContextProvider>
+            <ReactQueryDevtools initialIsOpen={false}/>
+        </QueryClientProvider>
     )
 }
 

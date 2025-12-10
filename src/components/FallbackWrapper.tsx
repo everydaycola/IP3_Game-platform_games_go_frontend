@@ -1,20 +1,18 @@
 import {type PropsWithChildren, type ReactNode, Suspense} from "react";
 import {ErrorBoundary} from "react-error-boundary";
 
-interface FallbackWrapperProps{
+interface FallbackWrapperProps {
     loadingFallback: ReactNode;
-    errorFallback:ReactNode;
+    errorFallback: ReactNode;
 }
 
-export function FallbackWrapper({ loadingFallback, errorFallback, children }: PropsWithChildren<FallbackWrapperProps>
+export function FallbackWrapper({loadingFallback, errorFallback, children}: PropsWithChildren<FallbackWrapperProps>
 ) {
-    return(
-        <>
-            <ErrorBoundary fallback={errorFallback}>
-                <Suspense fallback={loadingFallback}>
-                    {children}
-                </Suspense>
-            </ErrorBoundary>
-        </>
+    return (
+        <ErrorBoundary fallback={errorFallback}>
+            <Suspense fallback={loadingFallback}>
+                {children}
+            </Suspense>
+        </ErrorBoundary>
     )
 }

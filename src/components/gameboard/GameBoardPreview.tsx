@@ -1,14 +1,15 @@
-import { Stack } from "@mui/material";
+import {Stack} from "@mui/material";
 import {GoGameBoardPiece} from "./GoGameBoardPiece.tsx";
 
 interface GameBoardPreviewProps {
     size: number;
 }
 
-export function GameBoardPreview({ size }: GameBoardPreviewProps) {
+export function GameBoardPreview({size}: GameBoardPreviewProps) {
     const board = Array.from({ length: size }, () =>
         Array.from({ length: size }, () => "_")
     );
+
 
     return (
         <Stack direction="row" spacing={0}>
@@ -24,6 +25,7 @@ export function GameBoardPreview({ size }: GameBoardPreviewProps) {
                             key={"cell-" + colIdx + "-" + rowIdx}
                             pieceSize={14}
                             stoneVisible={cell !== "_"}
+                            atTurn={false}
                             stoneColor={cell === "B" ? "black" : "white"}
                             topVisible={rowIdx !== 0}
                             bottomVisible={rowIdx !== size - 1}

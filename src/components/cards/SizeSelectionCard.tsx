@@ -1,4 +1,4 @@
-import {Card, CardContent, CardMedia, Typography, Chip} from "@mui/material";
+import {Card, CardContent, CardMedia, Chip, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {GameBoardPreview} from "../gameboard/GameBoardPreview.tsx";
 

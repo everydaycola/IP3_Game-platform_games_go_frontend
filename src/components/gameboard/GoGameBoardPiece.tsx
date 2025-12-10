@@ -1,29 +1,36 @@
 import {Box, useTheme} from "@mui/material";
-
+import {useState} from "react";
 
 interface GoGameBoardPieceProps {
     pieceSize?: number;
     stoneVisible: boolean;
-    stoneColor?: string | undefined;
+    stoneColor?: string;
+    atTurn: boolean;
     topVisible?: boolean;
     bottomVisible?: boolean;
     leftVisible?: boolean;
     rightVisible?: boolean;
+    onClick?: () => void;
 }
 
-export function GoGameBoardPiece({
-                                     pieceSize= 60,
-                                     stoneVisible,
-                                     stoneColor,
-                                     topVisible = true,
-                                     bottomVisible = true,
-                                     leftVisible = true,
-                                     rightVisible = true,
-                                 }: GoGameBoardPieceProps) {
+export function GoGameBoardPiece(
+    {
+        pieceSize = 60,
+        stoneVisible,
+        stoneColor,
+        atTurn,
+        topVisible = true,
+        bottomVisible = true,
+        leftVisible = true,
+        rightVisible = true,
+        onClick = () => {}
+    }: GoGameBoardPieceProps) {
     const theme = useTheme();
+    const [hovering, setHovering] = useState(false)
     return (
         <Box
             data-testid="go-game-board-piece"
+            onClick={onClick}
             sx={{
                 position: "relative",
                 width: pieceSize,
@@ -31,28 +38,31 @@ export function GoGameBoardPiece({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                aspectRatio:"1/1"
+                aspectRatio: "1/1",
+                cursor: 'pointer'
             }}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
         >
-
-            {stoneVisible &&
+            {((hovering && atTurn) || stoneVisible) && (
                 <Box
                     sx={{
                         width: pieceSize * 0.9,
                         height: pieceSize * 0.9,
                         borderRadius: "50%",
-                        backgroundColor: stoneColor,
-                        border:"5px solid " + theme.palette.primary.main,
+                        backgroundColor: (stoneVisible ? stoneColor : "black"),
+                        border: "5px solid " + theme.palette.primary.main,
                         zIndex: 1,
+                        opacity: (stoneVisible ? 1 : 0.7)
                     }}
                 />
-            }
+            )}
 
             {topVisible && (
                 <Box
                     sx={{
                         position: "absolute",
-                        width: pieceSize/12,
+                        width: pieceSize / 12,
                         height: "50%",
                         backgroundColor: "black",
                         top: 0,
@@ -67,7 +77,7 @@ export function GoGameBoardPiece({
                 <Box
                     sx={{
                         position: "absolute",
-                        width: pieceSize/12,
+                        width: pieceSize / 12,
                         height: "50%",
                         backgroundColor: "black",
                         bottom: 0,
@@ -82,7 +92,7 @@ export function GoGameBoardPiece({
                 <Box
                     sx={{
                         position: "absolute",
-                        height: pieceSize/12,
+                        height: pieceSize / 12,
                         width: "50%",
                         backgroundColor: "black",
                         left: 0,
@@ -97,7 +107,7 @@ export function GoGameBoardPiece({
                 <Box
                     sx={{
                         position: "absolute",
-                        height: pieceSize/12,
+                        height: pieceSize / 12,
                         width: "50%",
                         backgroundColor: "black",
                         right: 0,
