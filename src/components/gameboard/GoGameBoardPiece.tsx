@@ -5,6 +5,7 @@ interface GoGameBoardPieceProps {
     pieceSize?: number;
     stoneVisible: boolean;
     stoneColor?: string;
+    atTurn: boolean;
     topVisible?: boolean;
     bottomVisible?: boolean;
     leftVisible?: boolean;
@@ -17,6 +18,7 @@ export function GoGameBoardPiece(
         pieceSize = 60,
         stoneVisible,
         stoneColor,
+        atTurn,
         topVisible = true,
         bottomVisible = true,
         leftVisible = true,
@@ -42,7 +44,7 @@ export function GoGameBoardPiece(
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
         >
-            {(hovering || stoneVisible) && (
+            {((hovering && atTurn) || stoneVisible) && (
                 <Box
                     sx={{
                         width: pieceSize * 0.9,

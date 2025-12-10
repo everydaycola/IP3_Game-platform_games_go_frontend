@@ -55,6 +55,7 @@ export function GameBoard({board}: GameBoardProps) {
                                 key={"cell-" + colIdx + "-" + rowIdx}
                                 pieceSize={board.size === 19 ? 50 : 60}
                                 stoneVisible={cell != "_"}
+                                atTurn={board.atTurn}
                                 stoneColor={cell === "B" ? "black" : "white"}
                                 topVisible={rowIdx != 0}
                                 bottomVisible={rowIdx != board.size - 1}

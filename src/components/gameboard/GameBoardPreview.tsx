@@ -25,6 +25,7 @@ export function GameBoardPreview({size}: GameBoardPreviewProps) {
                             key={"cell-" + colIdx + "-" + rowIdx}
                             pieceSize={14}
                             stoneVisible={cell !== "_"}
+                            atTurn={false}
                             stoneColor={cell === "B" ? "black" : "white"}
                             topVisible={rowIdx !== 0}
                             bottomVisible={rowIdx !== size - 1}
