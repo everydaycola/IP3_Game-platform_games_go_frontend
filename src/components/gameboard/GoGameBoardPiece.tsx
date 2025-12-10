@@ -1,5 +1,5 @@
 import {Box, useTheme} from "@mui/material";
-
+import {useState} from "react";
 
 interface GoGameBoardPieceProps {
     pieceSize?: number;
@@ -24,6 +24,7 @@ export function GoGameBoardPiece(
         onClick = () => {}
     }: GoGameBoardPieceProps) {
     const theme = useTheme();
+    const [hovering, setHovering] = useState(false)
     return (
         <Box
             data-testid="go-game-board-piece"
@@ -35,22 +36,25 @@ export function GoGameBoardPiece(
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                aspectRatio: "1/1"
+                aspectRatio: "1/1",
+                cursor: 'pointer'
             }}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
         >
-
-            {stoneVisible &&
+            {(hovering || stoneVisible) && (
                 <Box
                     sx={{
                         width: pieceSize * 0.9,
                         height: pieceSize * 0.9,
                         borderRadius: "50%",
-                        backgroundColor: stoneColor,
+                        backgroundColor: (stoneVisible ? stoneColor : "black"),
                         border: "5px solid " + theme.palette.primary.main,
                         zIndex: 1,
+                        opacity: (stoneVisible ? 1 : 0.7)
                     }}
                 />
-            }
+            )}
 
             {topVisible && (
                 <Box
