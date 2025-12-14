@@ -20,7 +20,7 @@ function App() {
             <CssBaseline/>
             <SecurityContextProvider>
                 <ThemeProvider theme={theme}>
-                    <BrowserRouter basename="/gamehosts/go">
+                    <BrowserRouter>
                         <Routes>
                             <Route path={"/"} element={
                                 <RouteGuard>
