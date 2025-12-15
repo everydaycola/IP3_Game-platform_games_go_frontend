@@ -12,6 +12,7 @@ import {FallbackWrapper} from "./components/FallbackWrapper.tsx";
 import {ErrorCard} from "./components/ErrorCard.tsx";
 import {WelcomePageFallback} from "./pages/fallbacks/WelcomePageFallback.tsx";
 import {GamePageLoadingFallback} from "./pages/fallbacks/GamePageLoadingFallback.tsx";
+import {basename} from "./config/routing";
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
             <CssBaseline/>
             <SecurityContextProvider>
                 <ThemeProvider theme={theme}>
-                    <BrowserRouter basename="/gamehosts/go">
+                    <BrowserRouter basename={basename}>
                         <Routes>
                             <Route path={"/"} element={
                                 <RouteGuard>
