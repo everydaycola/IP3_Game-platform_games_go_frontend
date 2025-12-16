@@ -1,10 +1,17 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import runtimeEnv from "vite-plugin-runtime-env";
 
 // https://vite.dev/config/
 export default defineConfig({
-    base: "/gamehosts/go/",
+    base: "./",
     plugins: [
+        runtimeEnv(
+            {
+                variableName:'window.env',
+                injectHtml:true,
+            },
+        ),
         react({
             babel: {
                 plugins: [['babel-plugin-react-compiler']],
