@@ -6,7 +6,8 @@ interface TurnCardProps {
     size: number,
     id: string,
     onClick: () => void,
-    passPending: boolean
+    passPending: boolean,
+    isLastTurnPassed: boolean
 }
 
 export function TurnCard(
@@ -16,12 +17,20 @@ export function TurnCard(
         size,
         id,
         onClick,
-        passPending
+        passPending,
+        isLastTurnPassed
     }: TurnCardProps) {
     return <Paper elevation={3} sx={{p: 2}}>
         <Stack spacing={1}>
             {atTurn ? (
-                <Typography variant="h6" color="success.main">Your turn</Typography>
+                <Stack spacing={0.5}>
+                    <Typography variant="h6" color="success.main">Your turn</Typography>
+                    {isLastTurnPassed && (
+                        <Typography variant="caption" color="info.main">
+                            Opponent passed their turn
+                        </Typography>
+                    )}
+                </Stack>
             ) : (
                 <Stack direction="row" spacing={1} alignItems="center">
                     {aiPending && <CircularProgress size={20}/>}
