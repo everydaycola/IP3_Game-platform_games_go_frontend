@@ -3,7 +3,7 @@ import {render, screen} from "@testing-library/react";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import {GameBoard} from "../../src/components/gameboard/GameBoard";
-import {testBoard, testBoardLarge, testBoardMedium, whiteWinsBoard} from "../data/testGameBoardStates";
+import {testBoard, testBoardLarge, testBoardMedium, whiteWinsBoard, testBoardOpponentPassed} from "../data/testGameBoardStates";
 import "@testing-library/jest-dom/vitest";
 
 // Mocks for hooks used inside GameBoard to prevent side effects
@@ -54,6 +54,14 @@ describe("GameBoard UI states", () => {
 
     // Assert
     expect(screen.getByText(/your turn/i)).toBeInTheDocument();
+  });
+
+  it("shows 'Opponent passed their turn' when isLastTurnPassed is true", () => {
+    // Act
+    renderWithClient(<GameBoard board={testBoardOpponentPassed} />);
+
+    // Assert
+    expect(screen.getByText(/opponent passed their turn/i)).toBeInTheDocument();
   });
 
   it("shows 'AI is thinking…' when atTurn is false and no winner", () => {
