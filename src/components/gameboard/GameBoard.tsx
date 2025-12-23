@@ -75,7 +75,8 @@ export function GameBoard({board}: GameBoardProps) {
 
                     {board.winner.toLowerCase() === "empty" ? (
                         <TurnCard atTurn={board.atTurn} aiPending={isAiPending} size={board.size} id={board.id}
-                                  onClick={() => requestPassTurn(board.id)} passPending={isPassPending}/>
+                                  onClick={() => requestPassTurn(board.id)} passPending={isPassPending}
+                                  isLastTurnPassed={board.isLastTurnPassed}/>
                     ) : (
                         <VictoryCard winner={board.winner} score={board.score} onClick={handleRetry}
                                      disabled={isRestarting}/>

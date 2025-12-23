@@ -4,5 +4,6 @@ export type GameState = {
     size: number;
     winner: string;
     score: number;
-    atTurn: boolean
+    atTurn: boolean;
+    isLastTurnPassed: boolean;
 }

@@ -16,7 +16,28 @@ export const testBoard: GameState = {
     size: 9,
     winner: "EMPTY",
     score: 0,
-    atTurn: true
+    atTurn: true,
+    isLastTurnPassed: false
+}
+
+export const testBoardOpponentPassed: GameState = {
+    id: "5",
+    board: [
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "B", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+        ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+    ],
+    size: 9,
+    winner: "EMPTY",
+    score: 0,
+    atTurn: true,
+    isLastTurnPassed: true
 }
 
 export const testBoardMedium: GameState = {
@@ -39,7 +60,8 @@ export const testBoardMedium: GameState = {
     size: 13,
     winner: "BLACK",
     score: 99,
-    atTurn: false
+    atTurn: false,
+    isLastTurnPassed: false
 };
 
 export const testBoardLarge: GameState = {
@@ -68,7 +90,8 @@ export const testBoardLarge: GameState = {
     size: 19,
     winner: "EMPTY",
     score: 0,
-    atTurn: false
+    atTurn: false,
+    isLastTurnPassed: false
 }
 
 export const whiteWinsBoard: GameState = {
@@ -88,4 +111,5 @@ export const whiteWinsBoard: GameState = {
     winner: "WHITE",
     score: 42,
     atTurn: false,
+    isLastTurnPassed: false
 };
