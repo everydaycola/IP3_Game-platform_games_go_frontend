@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {gameQueryKeys} from "../config/api/querykeys";
-import type {MatchRequestAi} from "../models/MatchRequestAi.ts";
+import type {MatchRequest} from "../models/MatchRequest.ts";
 import {startGameWithAi} from "../services/gameService.ts";
 import type {GameState} from "../models/GameState.ts";
 import {useCurrentPlayerSessionStore} from "../store/gameStore.ts";
@@ -12,7 +12,7 @@ export function useStartNewGame(){
 
     const{mutate,isPending,isError,data: newGame} = useMutation(
         {
-            mutationFn: async(request: MatchRequestAi) => {
+            mutationFn: async(request: MatchRequest) => {
                 return startGameWithAi(request);
             },
             onSuccess:(gameBoard: GameState) => {

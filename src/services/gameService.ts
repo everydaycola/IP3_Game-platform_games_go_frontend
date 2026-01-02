@@ -1,4 +1,4 @@
-import type {MatchRequestAi} from "../models/MatchRequestAi.ts";
+import type {MatchRequestAi} from "../models/MatchRequest.ts";
 import axios from "axios";
 import type {GameState} from "../models/GameState.ts";
 import type {MoveRequest} from "../models/MoveRequest.ts";
@@ -27,7 +27,7 @@ export async function getGame(gameId: string | null) {
 export async function startGameWithAi(data: MatchRequestAi) {
     const ongoingGame = await getOngoingGame(data.size);
     if (ongoingGame === null) {
-        const {data: newGame} = await axios.post<GameState>('/matches', data)
+        const {data: newGame} = await axios.post<GameState>('/matches/ai', data)
         return newGame
     }
     return ongoingGame;
