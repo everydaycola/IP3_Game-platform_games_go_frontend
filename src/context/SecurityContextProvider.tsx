@@ -4,6 +4,7 @@ import Keycloak from 'keycloak-js'
 import type {User} from "../models/user.ts";
 import {isExpired} from 'react-jwt'
 import {addAccessTokenToAuthHeader, removeAccessTokenFromAuthHeader} from "../services/auth.ts";
+import {useCurrentPlayerSessionStore} from "../store/gameStore.ts";
 
 
 const keycloakConfig = {
@@ -15,6 +16,7 @@ const keycloakConfig = {
 const keycloak: Keycloak = new Keycloak(keycloakConfig)
 
 export default function SecurityContextProvider({children}: PropsWithChildren) {
+    const updateCurrentPlayerId = useCurrentPlayerSessionStore((state) => state.updateCurrentPlayerId)
     const [loggedInUser, setLoggedInUser] = useState<User | undefined>(undefined)
     const [isInitialised, setIsInitialised] = useState(false)
 
@@ -57,6 +59,10 @@ export default function SecurityContextProvider({children}: PropsWithChildren) {
 
     function updateUserFromToken() {
         if (!keycloak.idTokenParsed || !keycloak.tokenParsed) return
+
+        const userId = keycloak.tokenParsed.sub
+        if (!userId) return
+        updateCurrentPlayerId(userId);
 
         const name = keycloak.idTokenParsed.given_name
         const realmRoles =

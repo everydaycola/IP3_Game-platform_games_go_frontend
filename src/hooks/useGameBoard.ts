@@ -1,17 +1,13 @@
 import {useQuery} from "@tanstack/react-query";
 import {gameQueryKeys} from "../config/api/querykeys";
-import {useCurrentPlayerSessionStore} from "../store/gameStore.ts";
-import {getGame} from "../services/gameService.ts";
+import {getOngoingGame} from "../services/gameService.ts";
+import {refetchInterval} from "../config/realtime";
 
 export function useGameBoard() {
-    const currentGameId = useCurrentPlayerSessionStore((state) => state.currentGameId);
-
     const {data: gameState, isError, isPending} = useQuery({
-        queryKey: gameQueryKeys.currentWithGameId(currentGameId!),
-        queryFn: () => getGame(currentGameId),
-        enabled: !!currentGameId,
-        refetchOnMount: true,
-        refetchOnWindowFocus: false,
+        queryKey: gameQueryKeys.current,
+        queryFn: () => getOngoingGame(),
+        refetchInterval:refetchInterval
     });
 
     return {

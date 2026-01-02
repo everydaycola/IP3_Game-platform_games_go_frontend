@@ -1,8 +1,5 @@
 import {Stack} from "@mui/material";
 import {useParams} from "react-router-dom";
-
-import {useEffect} from "react";
-import {useStartNewGame} from "../hooks/useStartNewGame.ts";
 import {allowedSizes} from "../config/game/config.ts";
 import {GameBoard} from "../components/gameboard/GameBoard.tsx";
 import {ErrorCard} from "../components/ErrorCard.tsx";
@@ -11,29 +8,15 @@ import {useGameBoard} from "../hooks/useGameBoard.ts";
 
 export function GamePage() {
     const {size} = useParams();
-    const {createGame, newGame, isPending, isError} = useStartNewGame();
     const {gameState, isGamePending} = useGameBoard();
-
-
-    useEffect(() => {
-        //useffect to handle init load of this page.
-        if (allowedSizes.includes(Number(size))) {
-            createGame({size: Number(size)});
-        }
-    }, []);
-
     if (!allowedSizes.includes(Number(size))) {
         return (<ErrorCard title={`Oeps?!`}
                            description={`${size} is geen geldig spelformaat...`}
                            renderBackToHomeButton={true}/>)
     }
 
-    if (isPending || isGamePending) {
+    if (isGamePending) {
         return (<div>Loading...</div>)
-    }
-
-    if (isError || !newGame) {
-        return (<div>Error!</div>)
     }
 
     return (

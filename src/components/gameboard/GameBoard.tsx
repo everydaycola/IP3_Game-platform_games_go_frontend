@@ -9,6 +9,7 @@ import {useStartNewGame} from "../../hooks/useStartNewGame.ts";
 import {TurnCard} from "./GameCards/TurnCard.tsx";
 import {VictoryCard} from "./GameCards/VictoryCard.tsx";
 import {useNavigate} from "react-router-dom";
+import {useCurrentPlayerSessionStore} from "../../store/gameStore.ts";
 
 interface GameBoardProps {
     board: GameState;
@@ -18,13 +19,14 @@ interface GameBoardProps {
 
 export function GameBoard({board}: GameBoardProps) {
     const navigate = useNavigate();
+    const currentPlayerId = useCurrentPlayerSessionStore((state) => state.currentPlayerId)
     const {createGame, isPending: isRestarting} = useStartNewGame();
-    const {requestMove, isPending: isPlacing} = usePlaceStone()
+    const {requestMove } = usePlaceStone()
     const {requestAiMove, isPending: isAiPending} = useAiMove()
-    const {requestPassTurn, isPending: isPassPending} = usePassTurn()
+    const {requestPassTurn} = usePassTurn()
 
     useEffect(() => {
-        if (!board?.atTurn && board) {
+        if (board.isAiGame && !board?.isPlayer1AtTurn && board) {
             console.log("Using the AI player.");
             requestAiMove(board.id);
         }
@@ -34,7 +36,16 @@ export function GameBoard({board}: GameBoardProps) {
         createGame({ size: board.size });
     };
 
-    const isInteractingDisabled = !board.atTurn || isAiPending || isPlacing || isPassPending || isRestarting;
+    function atTurn(){
+        if(board.isAiGame){
+            return board.isPlayer1AtTurn;
+        }
+        if(board.isPlayer1AtTurn){
+            return board.player1Id === currentPlayerId;
+        }else{
+            return board.player2Id === currentPlayerId;
+        }
+    }
 
     return (
         <Stack direction="row" spacing={2} alignItems="flex-start">
@@ -48,14 +59,15 @@ export function GameBoard({board}: GameBoardProps) {
                         {col.map((cell, rowIdx) => (
                             <GoGameBoardPiece
                                 onClick={() => {
-                                    if (!isInteractingDisabled) {
+                                    if (atTurn()) {
                                         requestMove({gameId: board.id, moveRequest: {x: colIdx, y: rowIdx}})
                                     }
                                 }}
                                 key={"cell-" + colIdx + "-" + rowIdx}
                                 pieceSize={board.size === 19 ? 50 : 60}
                                 stoneVisible={cell != "_"}
-                                atTurn={board.atTurn}
+                                atTurn={atTurn()}
+                                userColor={board.isPlayer1AtTurn ? "white": "black"}
                                 stoneColor={cell === "B" ? "black" : "white"}
                                 topVisible={rowIdx != 0}
                                 bottomVisible={rowIdx != board.size - 1}
@@ -74,8 +86,8 @@ export function GameBoard({board}: GameBoardProps) {
                     </Button>
 
                     {board.winner.toLowerCase() === "empty" ? (
-                        <TurnCard atTurn={board.atTurn} aiPending={isAiPending} size={board.size} id={board.id}
-                                  onClick={() => requestPassTurn(board.id)} passPending={isPassPending}
+                        <TurnCard board={board} atTurn={board.isPlayer1AtTurn} aiPending={isAiPending} size={board.size} id={board.id}
+                                  onClick={() => requestPassTurn(board.id)} canPass={atTurn()}
                                   isLastTurnPassed={board.isLastTurnPassed}/>
                     ) : (
                         <VictoryCard winner={board.winner} score={board.score} onClick={handleRetry}

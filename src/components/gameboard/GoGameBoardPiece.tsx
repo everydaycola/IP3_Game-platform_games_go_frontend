@@ -5,6 +5,7 @@ interface GoGameBoardPieceProps {
     pieceSize?: number;
     stoneVisible: boolean;
     stoneColor?: string;
+    userColor:string;
     atTurn: boolean;
     topVisible?: boolean;
     bottomVisible?: boolean;
@@ -23,7 +24,8 @@ export function GoGameBoardPiece(
         bottomVisible = true,
         leftVisible = true,
         rightVisible = true,
-        onClick = () => {}
+        onClick = () => {},
+        userColor
     }: GoGameBoardPieceProps) {
     const theme = useTheme();
     const [hovering, setHovering] = useState(false)
@@ -50,7 +52,7 @@ export function GoGameBoardPiece(
                         width: pieceSize * 0.9,
                         height: pieceSize * 0.9,
                         borderRadius: "50%",
-                        backgroundColor: (stoneVisible ? stoneColor : "black"),
+                        backgroundColor: (stoneVisible ? stoneColor : userColor),
                         border: "5px solid " + theme.palette.primary.main,
                         zIndex: 1,
                         opacity: (stoneVisible ? 1 : 0.7)

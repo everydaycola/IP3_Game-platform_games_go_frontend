@@ -3,11 +3,11 @@ import axios from "axios";
 import type {GameState} from "../models/GameState.ts";
 import type {MoveRequest} from "../models/MoveRequest.ts";
 
-async function getOngoingGame(size: number) {
+export async function getOngoingGame() {
     try {
-        const {data} = await axios.get<GameState>(`/matches/playing/${size}`)
+        const {data} = await axios.get<GameState>(`/matches/playing`)
         return data;
-    }catch (err) {
+    } catch (err) {
         //If it's 404, it's not an error its just that there is no active game going on.
         if (axios.isAxiosError(err) && err.response?.status === 404) {
             return null;
@@ -25,12 +25,8 @@ export async function getGame(gameId: string | null) {
 }
 
 export async function startGameWithAi(data: MatchRequestAi) {
-    const ongoingGame = await getOngoingGame(data.size);
-    if (ongoingGame === null) {
-        const {data: newGame} = await axios.post<GameState>('/matches/ai', data)
-        return newGame
-    }
-    return ongoingGame;
+    const {data: newGame} = await axios.post<GameState>('/matches/ai', data)
+    return newGame
 }
 
 export async function makeMove(gameId: string, data: MoveRequest) {
