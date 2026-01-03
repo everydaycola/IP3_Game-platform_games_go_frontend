@@ -1,13 +1,20 @@
 import {Card, CardContent, CardMedia, Chip, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {GameBoardPreview} from "../gameboard/GameBoardPreview.tsx";
+import {useStartNewAiGame} from "../../hooks/useStartNewAiGame.ts";
 
 interface SizeSelectionCardProps{
     size:number;
 }
 
 export function SizeSelectionCard({size}:SizeSelectionCardProps){
+    const {createGame} = useStartNewAiGame();
     const navigate = useNavigate();
+
+    async function handleGameCreation(){
+        await createGame({size:size});
+        navigate(`/game/${size}`);
+    }
 
     return(
         <Card
@@ -20,7 +27,7 @@ export function SizeSelectionCard({size}:SizeSelectionCardProps){
                 m:2,
                 cursor:"pointer"
             }}
-            onClick={() => {navigate(`/game/${size}`)}}
+            onClick={handleGameCreation}
         >
             <CardMedia
                 sx={{height: "80%", background:"white", color:"black", position:"relative"}}

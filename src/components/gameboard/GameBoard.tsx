@@ -5,7 +5,7 @@ import {usePlaceStone} from "../../hooks/usePlaceStone.ts";
 import {useEffect} from "react";
 import {useAiMove} from "../../hooks/useAiMove.ts";
 import {usePassTurn} from "../../hooks/usePassTurn.ts";
-import {useStartNewGame} from "../../hooks/useStartNewGame.ts";
+import {useStartNewAiGame} from "../../hooks/useStartNewAiGame.ts";
 import {TurnCard} from "./GameCards/TurnCard.tsx";
 import {VictoryCard} from "./GameCards/VictoryCard.tsx";
 import {useNavigate} from "react-router-dom";
@@ -20,7 +20,7 @@ interface GameBoardProps {
 export function GameBoard({board}: GameBoardProps) {
     const navigate = useNavigate();
     const currentPlayerId = useCurrentPlayerSessionStore((state) => state.currentPlayerId)
-    const {createGame, isPending: isRestarting} = useStartNewGame();
+    const {createGame, isPending: isRestarting} = useStartNewAiGame();
     const {requestMove } = usePlaceStone()
     const {requestAiMove, isPending: isAiPending} = useAiMove()
     const {requestPassTurn} = usePassTurn()
