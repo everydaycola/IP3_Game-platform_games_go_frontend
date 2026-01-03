@@ -13,6 +13,14 @@ export function WelcomePage() {
     if (isGamePending) {
         return <div>Loading...</div>
     }
+    function handleNavigate(){
+        navigate(`/game/${gameState?.id}`)
+    }
+    console.log(gameState);
+
+    if(gameState != null && !gameState.isAiGame){
+        handleNavigate();
+    }
 
     return (
         <>
@@ -37,7 +45,7 @@ export function WelcomePage() {
                                 sx={{mt:1}}
                                 variant={"contained"}
                                 color={"secondary"}
-                                onClick={() => navigate(`/game/${gameState.id}`)}
+                                onClick={handleNavigate}
                             >
                                 Verder spelen
                             </Button>

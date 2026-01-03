@@ -84,10 +84,12 @@ export function GameBoard({board}: GameBoardProps) {
 
             <Box sx={{minWidth: 260}}>
                 <Stack spacing={2}>
-                    <Button variant="outlined"
-                            onClick={() => navigate("/")}>
-                        Back to Home
-                    </Button>
+                    {board.isAiGame &&
+                        <Button variant="outlined"
+                                onClick={() => navigate("/")}>
+                            Back to Home
+                        </Button>
+                    }
 
                     {board.winner.toLowerCase() === "empty" ? (
                         <TurnCard board={board}

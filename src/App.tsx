@@ -12,6 +12,7 @@ import {ErrorCard} from "./components/ErrorCard.tsx";
 import {WelcomePageFallback} from "./pages/fallbacks/WelcomePageFallback.tsx";
 import {GamePageLoadingFallback} from "./pages/fallbacks/GamePageLoadingFallback.tsx";
 import {basename} from "./config/routing";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
                     </BrowserRouter>
                 </ThemeProvider>
             </SecurityContextProvider>
+            <ReactQueryDevtools />
         </QueryClientProvider>
     )
 }
