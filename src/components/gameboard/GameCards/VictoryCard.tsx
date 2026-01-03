@@ -31,12 +31,6 @@ export function VictoryCard(
                         Play again
                     </Button>
             }
-            //TODO:implement logic to get back to the lobby.
-            {!isAiGame &&
-                <Button variant="contained" onClick={onClick} disabled={disabled}>
-                    Terug naar de lobby
-                </Button>
-            }
         </Stack>
     </Paper>;
 }
