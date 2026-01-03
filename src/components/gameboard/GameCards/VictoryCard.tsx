@@ -1,10 +1,12 @@
-import {Button, Paper, Stack, Typography} from "@mui/material";
+import {Button, CircularProgress, Paper, Stack, Typography} from "@mui/material";
 
 interface VictoryCardProps {
     winner: string,
     score: number,
     onClick: () => void,
-    disabled: boolean
+    disabled: boolean,
+    isAiGame : boolean,
+    isLoading:boolean
 }
 
 export function VictoryCard(
@@ -12,7 +14,9 @@ export function VictoryCard(
         winner,
         score,
         onClick,
-        disabled
+        disabled,
+        isAiGame,
+        isLoading
     }: VictoryCardProps)
 {
     return <Paper elevation={4} sx={{p: 2}}>
@@ -20,9 +24,19 @@ export function VictoryCard(
             <Typography variant="h5">Winner</Typography>
             <Typography variant="h6">{winner}</Typography>
             <Typography variant="body1">Score: {score}</Typography>
-            <Button variant="contained" onClick={onClick} disabled={disabled}>
-                Play again
-            </Button>
+            {isAiGame && isLoading ?
+                    <CircularProgress/>
+                    :
+                    <Button variant="contained" onClick={onClick} disabled={disabled}>
+                        Play again
+                    </Button>
+            }
+            //TODO:implement logic to get back to the lobby.
+            {!isAiGame &&
+                <Button variant="contained" onClick={onClick} disabled={disabled}>
+                    Terug naar de lobby
+                </Button>
+            }
         </Stack>
     </Paper>;
 }

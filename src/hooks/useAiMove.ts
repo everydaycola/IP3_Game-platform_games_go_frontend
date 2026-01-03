@@ -8,7 +8,6 @@ export function useAiMove() {
     const {mutate, isPending, isError} = useMutation({
         mutationFn: (gameId: string) => makeAiMove(gameId),
         onSuccess: (gameState: GameState) => {
-            console.log("AI SUCCES CALL");
             queryClient.invalidateQueries({ queryKey: gameQueryKeys.currentWithGameId(gameState.id)});
         },
     })

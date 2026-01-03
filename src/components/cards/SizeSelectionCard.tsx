@@ -12,8 +12,8 @@ export function SizeSelectionCard({size}:SizeSelectionCardProps){
     const navigate = useNavigate();
 
     async function handleGameCreation(){
-        await createGame({size:size});
-        navigate(`/game/${size}`);
+        const data = await createGame({size:size});
+        navigate(`/game/${data.id}`);
     }
 
     return(

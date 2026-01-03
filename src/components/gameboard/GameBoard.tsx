@@ -15,13 +15,11 @@ interface GameBoardProps {
     board: GameState;
 }
 
-
-
 export function GameBoard({board}: GameBoardProps) {
     const navigate = useNavigate();
     const currentPlayerId = useCurrentPlayerSessionStore((state) => state.currentPlayerId)
     const {createGame, isPending: isRestarting} = useStartNewAiGame();
-    const {requestMove } = usePlaceStone()
+    const {requestMove} = usePlaceStone()
     const {requestAiMove, isPending: isAiPending} = useAiMove()
     const {requestPassTurn} = usePassTurn()
 
@@ -32,24 +30,29 @@ export function GameBoard({board}: GameBoardProps) {
         }
     }, [board, requestAiMove]);
 
-    const handleRetry = () => {
-        createGame({ size: board.size });
+    const handleRetry = async () => {
+        const data = await createGame({size: board.size});
+        navigate(`/game/${data.id}`)
     };
 
-    function atTurn(){
-        if(board.isAiGame){
+    function atTurn() {
+        if (board.winner != "EMPTY") return false;
+        if (board.isAiGame) {
             return board.isPlayer1AtTurn;
         }
-        if(board.isPlayer1AtTurn){
+        if (board.isPlayer1AtTurn) {
             return board.player1Id === currentPlayerId;
-        }else{
+        } else {
             return board.player2Id === currentPlayerId;
         }
     }
 
     return (
-        <Stack direction="row" spacing={2} alignItems="flex-start">
-            <Stack direction="row" spacing={0}>
+        <Stack direction="row"
+               spacing={2}
+               alignItems="flex-start">
+            <Stack direction="row"
+                   spacing={0}>
                 {board.board.map((col, colIdx) => (
                     <Stack
                         key={"gameboardCol" + colIdx}
@@ -67,7 +70,7 @@ export function GameBoard({board}: GameBoardProps) {
                                 pieceSize={board.size === 19 ? 50 : 60}
                                 stoneVisible={cell != "_"}
                                 atTurn={atTurn()}
-                                userColor={board.isPlayer1AtTurn ? "white": "black"}
+                                userColor={board.isPlayer1AtTurn ? "white" : "black"}
                                 stoneColor={cell === "B" ? "black" : "white"}
                                 topVisible={rowIdx != 0}
                                 bottomVisible={rowIdx != board.size - 1}
@@ -81,17 +84,28 @@ export function GameBoard({board}: GameBoardProps) {
 
             <Box sx={{minWidth: 260}}>
                 <Stack spacing={2}>
-                    <Button variant="outlined" onClick={() => navigate("/")}>
+                    <Button variant="outlined"
+                            onClick={() => navigate("/")}>
                         Back to Home
                     </Button>
 
                     {board.winner.toLowerCase() === "empty" ? (
-                        <TurnCard board={board} atTurn={board.isPlayer1AtTurn} aiPending={isAiPending} size={board.size} id={board.id}
-                                  onClick={() => requestPassTurn(board.id)} canPass={atTurn()}
+                        <TurnCard board={board}
+                                  atTurn={board.isPlayer1AtTurn}
+                                  aiPending={isAiPending}
+                                  size={board.size}
+                                  id={board.id}
+                                  onClick={() => requestPassTurn(board.id)}
+                                  canPass={atTurn()}
                                   isLastTurnPassed={board.isLastTurnPassed}/>
                     ) : (
-                        <VictoryCard winner={board.winner} score={board.score} onClick={handleRetry}
-                                     disabled={isRestarting}/>
+                        <VictoryCard winner={board.winner}
+                                     score={board.score}
+                                     onClick={handleRetry}
+                                     disabled={isRestarting}
+                                     isLoading={isRestarting}
+                                     isAiGame={board.isAiGame}
+                        />
                     )}
                 </Stack>
             </Box>

@@ -8,7 +8,6 @@ export async function getOngoingGame() {
         const {data} = await axios.get<GameState>(`/matches/playing`)
         return data;
     } catch (err) {
-        //If it's 404, it's not an error its just that there is no active game going on.
         if (axios.isAxiosError(err) && err.response?.status === 404) {
             return null;
         }

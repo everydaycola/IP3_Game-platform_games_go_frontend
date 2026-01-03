@@ -1,21 +1,17 @@
 import {Button, Stack, Typography} from "@mui/material";
 import {useState} from "react";
 import {SizeSelector} from "../components/SizeSelector.tsx";
-import {useGameBoard} from "../hooks/useGameBoard.ts";
 import {useNavigate} from "react-router-dom";
+import {useGetOngoingGameBoard} from "../hooks/useGetOngoingGameBoard.ts";
 
 export function WelcomePage() {
-    const {gameState, isGamePending} = useGameBoard();
+    const {gameState, isGamePending} = useGetOngoingGameBoard();
     const navigate = useNavigate();
     const [isSelectingSize, setIsSelectingSize] = useState(false);
-    const sizes = [9,13,19];
+    const sizes = [9, 13, 19];
 
-    if(isGamePending){
+    if (isGamePending) {
         return <div>Loading...</div>
-    }
-
-    if(gameState != null){
-        navigate(`/game/${gameState.size}`)
     }
 
     return (
@@ -32,8 +28,21 @@ export function WelcomePage() {
                         sx={{mt: 2}}
                         onClick={() => setIsSelectingSize(true)}
                     >
-                        Start a game
+                        Nieuw spel starten
                     </Button>
+                    {gameState != null &&
+                        <>
+                            <Typography variant={"h6"} sx={{mt:2}}>Je hebt nog een spel tegen een AI</Typography>
+                            <Button
+                                sx={{mt:1}}
+                                variant={"contained"}
+                                color={"secondary"}
+                                onClick={() => navigate(`/game/${gameState.id}`)}
+                            >
+                                Verder spelen
+                            </Button>
+                        </>
+                    }
                 </Stack>
             }
 

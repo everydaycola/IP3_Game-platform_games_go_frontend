@@ -1,7 +1,6 @@
 import {theme} from "./config/theme/theme.ts";
 import {queryClient} from "./config/api";
 import {QueryClientProvider} from "@tanstack/react-query";
-import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {CssBaseline, ThemeProvider} from '@mui/material';
 import {WelcomePage} from "./pages/WelcomePage.tsx";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -34,7 +33,7 @@ function App() {
                                     </FallbackWrapper>
                                 </RouteGuard>
                             }/>
-                            <Route path={"/game/:size"} element={
+                            <Route path={"/game/:id"} element={
                                 <RouteGuard>
                                     <FallbackWrapper
                                         loadingFallback={<GamePageLoadingFallback/>}
@@ -50,7 +49,6 @@ function App() {
                     </BrowserRouter>
                 </ThemeProvider>
             </SecurityContextProvider>
-            <ReactQueryDevtools initialIsOpen={false}/>
         </QueryClientProvider>
     )
 }

@@ -10,7 +10,7 @@ export function useStartNewAiGame(){
     const queryClient = useQueryClient();
     const updateCurrentGameId = useCurrentPlayerSessionStore((state) => state.updateCurrentGameId)
 
-    const{mutate,isPending,isError,data: newGame} = useMutation(
+    const{mutateAsync,isPending,isError,data: newGame} = useMutation(
         {
             mutationFn: async(request: MatchRequestAi) => {
                 return startGameWithAi(request);
@@ -25,7 +25,7 @@ export function useStartNewAiGame(){
     return {
         isPending: isPending,
         isError: isError,
-        createGame: mutate,
+        createGame: mutateAsync,
         newGame
     };
 }

@@ -1,19 +1,11 @@
 import {Stack} from "@mui/material";
 import {useParams} from "react-router-dom";
-import {allowedSizes} from "../config/game/config.ts";
 import {GameBoard} from "../components/gameboard/GameBoard.tsx";
-import {ErrorCard} from "../components/ErrorCard.tsx";
 import {useGameBoard} from "../hooks/useGameBoard.ts";
 
-
 export function GamePage() {
-    const {size} = useParams();
-    const {gameState, isGamePending} = useGameBoard();
-    if (!allowedSizes.includes(Number(size))) {
-        return (<ErrorCard title={`Oeps?!`}
-                           description={`${size} is geen geldig spelformaat...`}
-                           renderBackToHomeButton={true}/>)
-    }
+    const {id} = useParams();
+    const {gameState, isGamePending} = useGameBoard(id!);
 
     if (isGamePending) {
         return (<div>Loading...</div>)
