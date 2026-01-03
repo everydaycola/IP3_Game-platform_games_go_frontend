@@ -9,7 +9,7 @@ import {useStartNewAiGame} from "../../hooks/useStartNewAiGame.ts";
 import {TurnCard} from "./GameCards/TurnCard.tsx";
 import {VictoryCard} from "./GameCards/VictoryCard.tsx";
 import {useNavigate} from "react-router-dom";
-import {useCurrentPlayerSessionStore} from "../../store/gameStore.ts";
+import {useSecurityStore} from "../../store/securityStore.ts";
 
 interface GameBoardProps {
     board: GameState;
@@ -17,7 +17,7 @@ interface GameBoardProps {
 
 export function GameBoard({board}: GameBoardProps) {
     const navigate = useNavigate();
-    const currentPlayerId = useCurrentPlayerSessionStore((state) => state.currentPlayerId)
+    const loggedInUser = useSecurityStore((state) => state.loggedInUser)
     const {createGame, isPending: isRestarting} = useStartNewAiGame();
     const {requestMove} = usePlaceStone()
     const {requestAiMove, isPending: isAiPending} = useAiMove()
@@ -41,9 +41,9 @@ export function GameBoard({board}: GameBoardProps) {
             return board.isPlayer1AtTurn;
         }
         if (board.isPlayer1AtTurn) {
-            return board.player1Id === currentPlayerId;
+            return board.player1Id === loggedInUser?.id;
         } else {
-            return board.player2Id === currentPlayerId;
+            return board.player2Id === loggedInUser?.id;
         }
     }
 

@@ -5,7 +5,6 @@ import {CssBaseline, ThemeProvider} from '@mui/material';
 import {WelcomePage} from "./pages/WelcomePage.tsx";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {GamePage} from "./pages/GamePage.tsx";
-import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
 import {FallbackWrapper} from "./components/FallbackWrapper.tsx";
 import {ErrorCard} from "./components/ErrorCard.tsx";
@@ -13,13 +12,13 @@ import {WelcomePageFallback} from "./pages/fallbacks/WelcomePageFallback.tsx";
 import {GamePageLoadingFallback} from "./pages/fallbacks/GamePageLoadingFallback.tsx";
 import {basename} from "./config/routing";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import {useInitSecurity} from "./hooks/security/useInitSecurity.tsx";
 
 function App() {
-
+    useInitSecurity();
     return (
         <QueryClientProvider client={queryClient}>
             <CssBaseline/>
-            <SecurityContextProvider>
                 <ThemeProvider theme={theme}>
                     <BrowserRouter basename={basename}>
                         <Routes>
@@ -49,7 +48,6 @@ function App() {
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>
-            </SecurityContextProvider>
             <ReactQueryDevtools />
         </QueryClientProvider>
     )
