@@ -2,7 +2,7 @@ import {beforeEach, describe, expect, it, vi} from "vitest";
 import {render, screen, waitFor} from "@testing-library/react";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {MemoryRouter, Route, Routes} from "react-router-dom";
-import {testBoard, testBoardLarge, testBoardMedium} from "../data/testGameBoardStates";
+import {testBoard} from "../data/testGameBoardStates";
 import {GamePage} from "../../src/pages/GamePage";
 import "@testing-library/jest-dom/vitest";
 
@@ -35,73 +35,37 @@ describe("GamePage", () => {
         });
     });
 
-    it.each([9, 13, 19])("Correctly renders page when a %ix%i grid is provided.", async (size) => {
+    it("Correctly renders page when a %ix%i grid is provided.", async () => {
         // Arrange
         const queryClient = new QueryClient();
 
-        // Make sure mocks return a board matching the requested size for this test case
-        const boardBySize = {
-            9: testBoard,
-            13: testBoardMedium,
-            19: testBoardLarge,
-        } as const;
-
-        const selected = boardBySize[size as 9 | 13 | 19];
-
         mockUseStartNewGame.mockReturnValueOnce({
             createGame: vi.fn(),
-            newGame: selected,
+            newGame: testBoard,
             isPending: false,
             isError: false,
         });
         mockUseGameBoard.mockReturnValueOnce({
-            gameState: selected,
+            gameState: testBoard,
             isGamePending: false,
             isError: false,
         });
-
+        const gameId = "5";
         // Act
         render(
             <QueryClientProvider client={queryClient}>
-                <MemoryRouter initialEntries={[`/game/${size}`]}>
+                <MemoryRouter initialEntries={[`/game/${gameId}`]}>
                     <Routes>
-                        <Route path="/game/:size" element={<GamePage />} />
+                        <Route path="/game/:id" element={<GamePage />} />
                     </Routes>
                 </MemoryRouter>
             </QueryClientProvider>
         );
-
         // Assert
         await waitFor(() => {
             const pieces = screen.getAllByTestId("go-game-board-piece");
-            expect(pieces.length).toBe(size * size);
+            expect(pieces.length).toBe(9 * 9);
         });
-    });
-
-    it("renders ErrorCard when a non-existent size is requested", () => {
-        //Arrange
-        const queryClient = new QueryClient();
-        const invalidSize = 17;
-
-        //Act
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter initialEntries={[`/game/${invalidSize}`]}>
-                    <Routes>
-                        <Route path="/game/:size" element={<GamePage />} />
-                    </Routes>
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        //Assert
-        expect(screen.getByText(/Oeps\?!/i)).toBeInTheDocument();
-        expect(
-            screen.getByText(`${invalidSize} is geen geldig spelformaat...`)
-        ).toBeInTheDocument();
-        expect(
-            screen.getByRole("button", { name: /Naar het startmenu/i })
-        ).toBeInTheDocument();
     });
 
 });

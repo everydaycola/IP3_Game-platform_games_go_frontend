@@ -16,6 +16,9 @@ export const testBoard: GameState = {
     size: 9,
     winner: "EMPTY",
     score: 0,
+    player1Id:"1",
+    player2Id:"2",
+    isAiGame:true,
     isPlayer1AtTurn: true,
     isLastTurnPassed: false
 }
@@ -36,6 +39,9 @@ export const testBoardOpponentPassed: GameState = {
     size: 9,
     winner: "EMPTY",
     score: 0,
+    player1Id:"1",
+    player2Id:"2",
+    isAiGame:true,
     isPlayer1AtTurn: true,
     isLastTurnPassed: true
 }
@@ -60,6 +66,9 @@ export const testBoardMedium: GameState = {
     size: 13,
     winner: "BLACK",
     score: 99,
+    player1Id:"1",
+    player2Id:"2",
+    isAiGame:true,
     isPlayer1AtTurn: false,
     isLastTurnPassed: false
 };
@@ -90,8 +99,11 @@ export const testBoardLarge: GameState = {
     size: 19,
     winner: "EMPTY",
     score: 0,
+    player1Id:"1",
+    player2Id: "2",
     isPlayer1AtTurn: false,
-    isLastTurnPassed: false
+    isLastTurnPassed: false,
+    isAiGame: true
 }
 
 export const whiteWinsBoard: GameState = {
@@ -110,6 +122,9 @@ export const whiteWinsBoard: GameState = {
     size: 9,
     winner: "WHITE",
     score: 42,
+    player1Id: "1",
+    player2Id:"2",
     isPlayer1AtTurn: false,
-    isLastTurnPassed: false
+    isLastTurnPassed: false,
+    isAiGame:true
 };
