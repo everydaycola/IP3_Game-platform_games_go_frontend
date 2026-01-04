@@ -4,6 +4,9 @@ export type GameState = {
     size: number;
     winner: string;
     score: number;
-    atTurn: boolean;
+    player1Id: string;
+    player2Id: string;
+    isPlayer1AtTurn: boolean;
     isLastTurnPassed: boolean;
+    isAiGame:boolean;
 }

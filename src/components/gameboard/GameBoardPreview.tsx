@@ -27,6 +27,7 @@ export function GameBoardPreview({size}: GameBoardPreviewProps) {
                             stoneVisible={cell !== "_"}
                             atTurn={false}
                             stoneColor={cell === "B" ? "black" : "white"}
+                            userColor={"white"}
                             topVisible={rowIdx !== 0}
                             bottomVisible={rowIdx !== size - 1}
                             leftVisible={colIdx !== 0}

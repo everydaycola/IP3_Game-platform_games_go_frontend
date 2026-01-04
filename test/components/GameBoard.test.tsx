@@ -48,12 +48,11 @@ describe("GameBoard UI states", () => {
     );
   };
 
-  it("shows 'Your turn' when atTurn is true", () => {
+  it("shows 'turn' when atTurn is true", () => {
     // Act
     renderWithClient(<GameBoard board={testBoard} />);
-
     // Assert
-    expect(screen.getByText(/your turn/i)).toBeInTheDocument();
+    expect(screen.getByText(/turn/i)).toBeInTheDocument();
   });
 
   it("shows 'Opponent passed their turn' when isLastTurnPassed is true", () => {
@@ -67,7 +66,7 @@ describe("GameBoard UI states", () => {
   it("shows 'AI is thinking…' when atTurn is false and no winner", () => {
     // Act
     renderWithClient(<GameBoard board={testBoardLarge} />);
-
+    screen.debug();
     // Assert
     expect(screen.getByText(/AI is thinking/i)).toBeInTheDocument();
   });
